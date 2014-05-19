@@ -1,0 +1,13 @@
+#!/bin/bash -ex
+install()
+{
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get -y \
+        -o DPkg::Options::=--force-confdef \
+        -o DPkg::Options::=--force-confold \
+        install $@
+}
+
+# remove homes share from samba config
+CONF=/etc/samba/smb.conf
+sed -i "/\[homes\]/,/^$/ d" $CONF
